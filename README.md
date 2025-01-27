@@ -37,6 +37,7 @@ The Recommendation System provides personalized video suggestions to improve use
     - Backend logic fetches videos based on:
         - `sort=trending`: Orders videos by their like count in descending order.
         - `tag=<keyword>`: Matches videos whose description contains the specified keyword.
+
 The frontend dynamically sends queries to the backend API based on the selected filter.
 User Experience:
 
@@ -62,14 +63,26 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 src/
 ├── app/                    # Main application code
 │   ├── backend/            # Backend-related code
-│   │   ├── models/         # Mongoose models
+│   │   ├── middleware/     # Middleware logic (e.g., upload handling)
+│   │   │   └── uploadMiddleware.ts
+│   │   ├── models/         # Mongoose models for MongoDB
+│   │   │   └── videoModel.ts
 │   │   ├── routes/         # Express.js routes
+│   │   │   └── videoRoute.ts
+│   │   ├── app.ts          # Main Express.js application file
 │   │   └── connectDB.ts    # MongoDB connection logic
-│   └── pages/              # Next.js pages
-│       ├── api/            # API routes
-│       └── index.tsx       # Frontend home page
+│   ├── pages/              # Next.js pages
+│   │   ├── api/            # API routes for the backend
+│   │   │   ├── videos/     # Video-related APIs
+│   │   │   │   ├── feed.ts # Fetch video feed
+│   │   │   │   ├── like.ts # Handle like interactions
+│   │   │   │   └── upload.ts # Handle video uploads
+│   └── page.tsx            # Frontend home page
 ├── public/                 # Static assets (uploads, images)
+│   └── uploads/            # Uploaded video files
 ├── styles/                 # Global CSS and Tailwind configuration
+│   └── globals.css         # Global styles for the application
+├── favicon.ico             # Application favicon
 └── README.md               # Project documentation
 
 ```
@@ -110,7 +123,7 @@ Users view a personalized feed of videos tailored to their interests and current
 
     - Users like videos, which influences their trending status.
     - Users leave comments, creating an engaging community experience.
-    
+
 4. Content Recommendation:
 
     - The system dynamically updates the feed based on user behavior and video metadata.
